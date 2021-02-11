@@ -52,3 +52,16 @@ request_task:
     - tar xf request-$VERSION.tgz --strip-components=1 --one-top-level=our-package
   diff_directories_script:
     - diff -r npm-package our-package
+
+commander_task:
+  env:
+    VERSION: 7.0.0
+  get_npm_package_script:
+    - wget $(npm view commander@$VERSION dist.tarball)
+    - tar xf commander-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
+  build_our_package_script:
+    - git clone --depth 1 --branch v$VERSION https://github.com/tj/commander.js.git
+    - npm pack ./commander.js
+    - tar xf commander-$VERSION.tgz --strip-components=1 --one-top-level=our-package
+  diff_directories_script:
+    - diff -r npm-package our-package
