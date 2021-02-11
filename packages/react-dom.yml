@@ -1,8 +1,8 @@
-react_task:
+react-dom_task:
   container:
     image: node:lts-buster
   env:
-    NAME: react
+    NAME: react-dom
     VERSION: 17.0.1
     GIT_REPO: https://github.com/facebook/react.git
   check_version_script: >

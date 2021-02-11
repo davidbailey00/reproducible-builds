@@ -101,6 +101,29 @@ moment_task:
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
   diff_directories_script:
     - diff -r npm-package our-package
+react-dom_task:
+  container:
+    image: node:lts-buster
+  env:
+    NAME: react-dom
+    VERSION: 17.0.1
+    GIT_REPO: https://github.com/facebook/react.git
+  check_version_script: >
+    [ "$(npm show $NAME version)" = "$VERSION" ]
+  install_deps_script:
+    - apt-get update
+    - apt-get install -y default-jre
+  get_npm_package_script:
+    - wget $(npm view $NAME@$VERSION dist.tarball)
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
+  build_our_package_script:
+    - git clone --depth 1 --branch v$VERSION $GIT_REPO $NAME
+    - (cd $NAME && yarn)
+    - (cd $NAME && yarn build $NAME/index)
+    - npm pack ./$NAME/build/node_modules/$NAME
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
+  diff_directories_script:
+    - diff -r npm-package our-package
 react_task:
   container:
     image: node:lts-buster
@@ -119,7 +142,7 @@ react_task:
   build_our_package_script:
     - git clone --depth 1 --branch v$VERSION $GIT_REPO $NAME
     - (cd $NAME && yarn)
-    - (cd $NAME && yarn build react/index)
+    - (cd $NAME && yarn build $NAME/index)
     - npm pack ./$NAME/build/node_modules/$NAME
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
   diff_directories_script:
