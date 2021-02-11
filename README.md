@@ -7,4 +7,10 @@ The purpose of this project is to independently build and package popular packag
 ## Rules
 
 - Each package should be built entirely from its unminified source code
-- If a package includes pre-built code in its Git repository, it should be removed and rebuilt
+- If a package includes generated code in its Git repository, it should be removed and rebuilt
+
+## Excluded packages
+
+### `lodash`
+
+[The GitHub repository for Lodash](https://github.com/lodash/lodash) has a branch named [`npm`](https://github.com/lodash/lodash/tree/npm) from which release tags are created; however, this branch only contains generated code without instructions for how to produce it, and differs substantially from the main branch. Building NPM packages seems to involve [`lodash-cli`](https://www.npmjs.com/package/lodash-cli), which is no longer maintained and does not provide instructions to build using local sources rather than the NPM version of Lodash.
