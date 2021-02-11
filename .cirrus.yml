@@ -6,6 +6,8 @@ lodash_task:
     NAME: lodash
     VERSION: 4.17.20
     GIT_REPO: https://github.com/lodash/lodash.git
+  check_version_script: >
+    [ "$(npm show $NAME version)" = "$VERSION" ]
   get_npm_package_script:
     - wget $(npm view $NAME@$VERSION dist.tarball)
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
@@ -21,6 +23,8 @@ chalk_task:
     NAME: chalk
     VERSION: 4.1.0
     GIT_REPO: https://github.com/chalk/chalk.git
+  check_version_script: >
+    [ "$(npm show $NAME version)" = "$VERSION" ]
   get_npm_package_script:
     - wget $(npm view $NAME@$VERSION dist.tarball)
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
@@ -36,6 +40,8 @@ tslib_task:
     NAME: tslib
     VERSION: 2.1.0
     GIT_REPO: https://github.com/Microsoft/tslib.git
+  check_version_script: >
+    [ "$(npm show $NAME version)" = "$VERSION" ]
   get_npm_package_script:
     - wget $(npm view $NAME@$VERSION dist.tarball)
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
@@ -51,6 +57,8 @@ request_task:
     NAME: request
     VERSION: 2.88.2
     GIT_REPO: https://github.com/request/request.git
+  check_version_script: >
+    [ "$(npm show $NAME version)" = "$VERSION" ]
   get_npm_package_script:
     - wget $(npm view $NAME@$VERSION dist.tarball)
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
@@ -66,6 +74,8 @@ commander_task:
     NAME: commander
     VERSION: 7.0.0
     GIT_REPO: https://github.com/tj/commander.js.git
+  check_version_script: >
+    [ "$(npm show $NAME version)" = "$VERSION" ]
   get_npm_package_script:
     - wget $(npm view $NAME@$VERSION dist.tarball)
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
@@ -81,6 +91,8 @@ express_task:
     NAME: express
     VERSION: 4.17.1
     GIT_REPO: https://github.com/expressjs/express.git
+  check_version_script: >
+    [ "$(npm show $NAME version)" = "$VERSION" ]
   get_npm_package_script:
     - wget $(npm view $NAME@$VERSION dist.tarball)
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
@@ -96,6 +108,8 @@ axios_task:
     NAME: axios
     VERSION: 0.21.1
     GIT_REPO: https://github.com/axios/axios.git
+  check_version_script: >
+    [ "$(npm show $NAME version)" = "$VERSION" ]
   get_npm_package_script:
     - wget $(npm view $NAME@$VERSION dist.tarball)
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
