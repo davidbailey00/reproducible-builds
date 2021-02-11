@@ -10,6 +10,7 @@ axios_task:
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
   build_our_package_script:
     - git clone --depth 1 --branch v$VERSION $GIT_REPO $NAME
+    - rm -rf $NAME/dist
     - npm install --prefix $NAME
     - npm run --prefix $NAME build
     - (cd $NAME && npx grunt version)
