@@ -101,6 +101,8 @@ axios_task:
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
   build_our_package_script:
     - git clone --depth 1 --branch v$VERSION $GIT_REPO $NAME
+    - npm install --prefix $NAME
+    - npm run --prefix $NAME build
     - npm pack ./$NAME
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
   diff_directories_script:
