@@ -11,6 +11,6 @@ The purpose of this project is to independently build and package popular packag
 
 ## Excluded packages
 
-### `lodash`
+### [`lodash`](https://www.npmjs.com/package/lodash)
 
-[The GitHub repository for Lodash](https://github.com/lodash/lodash) has a branch named [`npm`](https://github.com/lodash/lodash/tree/npm) from which release tags are created; however, this branch only contains generated code without instructions for how to produce it, and differs substantially from the main branch. Building NPM packages seems to involve [`lodash-cli`](https://www.npmjs.com/package/lodash-cli), which is no longer maintained and does not provide instructions to build using local sources rather than the NPM version of Lodash.
+The [GitHub repository for Lodash](https://github.com/lodash/lodash) has a branch named [`npm`](https://github.com/lodash/lodash/tree/npm) from which release tags are created; however, this branch only contains generated code without instructions for how to produce it, and differs substantially from the main branch. Building NPM packages seems to involve [`lodash-cli`](https://www.npmjs.com/package/lodash-cli), which is no longer maintained and does not provide instructions to build using local sources rather than the NPM version of Lodash.
