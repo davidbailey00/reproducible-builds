@@ -13,6 +13,7 @@ axios_task:
     - npm install --prefix $NAME
     - npm run --prefix $NAME build
     - (cd $NAME && npx grunt version)
+    - npm pack ./$NAME
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
   diff_directories_script:
     - diff -r npm-package our-package
