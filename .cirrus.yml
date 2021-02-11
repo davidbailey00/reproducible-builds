@@ -26,3 +26,16 @@ chalk_task:
     - tar xf chalk-$VERSION.tgz --strip-components=1 --one-top-level=our-package
   diff_directories_script:
     - diff -r npm-package our-package
+
+tslib_task:
+  env:
+    VERSION: 2.1.0
+  get_npm_package_script:
+    - wget $(npm view tslib@$VERSION dist.tarball)
+    - tar xf tslib-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
+  build_our_package_script:
+    - git clone --depth 1 --branch $VERSION https://github.com/Microsoft/tslib.git
+    - npm pack ./tslib
+    - tar xf tslib-$VERSION.tgz --strip-components=1 --one-top-level=our-package
+  diff_directories_script:
+    - diff -r npm-package our-package
