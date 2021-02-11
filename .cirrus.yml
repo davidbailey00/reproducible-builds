@@ -14,6 +14,7 @@ axios_task:
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
   build_our_package_script:
     - git clone --depth 1 --branch v$VERSION $GIT_REPO $NAME
+    - rm -rf $NAME/dist
     - npm install --prefix $NAME
     - npm run --prefix $NAME build
     - (cd $NAME && npx grunt version)
@@ -101,22 +102,6 @@ fs-extra_task:
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
   diff_directories_script:
     - diff -r npm-package our-package
-lodash_task:
-  env:
-    NAME: lodash
-    VERSION: 4.17.20
-    GIT_REPO: https://github.com/lodash/lodash.git
-  check_version_script: >
-    [ "$(npm show $NAME version)" = "$VERSION" ]
-  get_npm_package_script:
-    - wget $(npm view $NAME@$VERSION dist.tarball)
-    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
-  build_our_package_script:
-    - git clone --depth 1 --branch $VERSION-npm $GIT_REPO $NAME
-    - npm pack ./$NAME
-    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
-  diff_directories_script:
-    - diff -r npm-package our-package
 moment_task:
   env:
     NAME: moment
@@ -129,6 +114,7 @@ moment_task:
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
   build_our_package_script:
     - git clone --depth 1 --branch $VERSION $GIT_REPO $NAME
+    - rm -rf $NAME/{dist,locale,min,moment.js,component.json}
     - npm ci --prefix $NAME
     - (cd $NAME && npx grunt release)
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
@@ -224,6 +210,24 @@ tslib_task:
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
   diff_directories_script:
     - diff -r npm-package our-package
+uuid_task:
+  env:
+    NAME: uuid
+    VERSION: 8.3.2
+    GIT_REPO: https://github.com/uuidjs/uuid.git
+  check_version_script: >
+    [ "$(npm show $NAME version)" = "$VERSION" ]
+  get_npm_package_script:
+    - wget $(npm view $NAME@$VERSION dist.tarball)
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
+  build_our_package_script:
+    - git clone --depth 1 --branch v$VERSION $GIT_REPO $NAME
+    - npm ci --prefix $NAME
+    - npm run --prefix $NAME build
+    - npm pack ./$NAME
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
+  diff_directories_script:
+    - diff -r npm-package our-package
 vue_task:
   env:
     NAME: vue
@@ -236,6 +240,7 @@ vue_task:
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
   build_our_package_script:
     - git clone --depth 1 --branch v$VERSION $GIT_REPO $NAME
+    - rm -rf $NAME/dist
     - (cd $NAME && yarn --frozen-lockfile)
     - (cd $NAME && yarn build $NAME/dist)
     - npm pack ./$NAME
