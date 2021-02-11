@@ -1,0 +1,18 @@
+vue_task:
+  env:
+    NAME: vue
+    VERSION: 2.6.12
+    GIT_REPO: https://github.com/vuejs/vue.git
+  check_version_script: >
+    [ "$(npm show $NAME version)" = "$VERSION" ]
+  get_npm_package_script:
+    - wget $(npm view $NAME@$VERSION dist.tarball)
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
+  build_our_package_script:
+    - git clone --depth 1 --branch v$VERSION $GIT_REPO $NAME
+    - (cd $NAME && yarn --frozen-lockfile)
+    - (cd $NAME && yarn build $NAME/dist)
+    - npm pack ./$NAME
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
+  diff_directories_script:
+    - diff -r npm-package our-package
