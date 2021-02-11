@@ -3,65 +3,75 @@ container:
 
 lodash_task:
   env:
+    NAME: lodash
     VERSION: 4.17.20
+    GIT_REPO: https://github.com/lodash/lodash.git
   get_npm_package_script:
-    - wget $(npm view lodash@$VERSION dist.tarball)
-    - tar xf lodash-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
+    - wget $(npm view $NAME@$VERSION dist.tarball)
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
   build_our_package_script:
-    - git clone --depth 1 --branch $VERSION-npm https://github.com/lodash/lodash.git
-    - npm pack ./lodash
-    - tar xf lodash-$VERSION.tgz --strip-components=1 --one-top-level=our-package
+    - git clone --depth 1 --branch $VERSION-npm $GIT_REPO $NAME
+    - npm pack ./$NAME
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
   diff_directories_script:
     - diff -r npm-package our-package
 
 chalk_task:
   env:
+    NAME: chalk
     VERSION: 4.1.0
+    GIT_REPO: https://github.com/chalk/chalk.git
   get_npm_package_script:
-    - wget $(npm view chalk@$VERSION dist.tarball)
-    - tar xf chalk-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
+    - wget $(npm view $NAME@$VERSION dist.tarball)
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
   build_our_package_script:
-    - git clone --depth 1 --branch v$VERSION https://github.com/chalk/chalk.git
-    - npm pack ./chalk
-    - tar xf chalk-$VERSION.tgz --strip-components=1 --one-top-level=our-package
+    - git clone --depth 1 --branch v$VERSION $GIT_REPO $NAME
+    - npm pack ./$NAME
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
   diff_directories_script:
     - diff -r npm-package our-package
 
 tslib_task:
   env:
+    NAME: tslib
     VERSION: 2.1.0
+    GIT_REPO: https://github.com/Microsoft/tslib.git
   get_npm_package_script:
-    - wget $(npm view tslib@$VERSION dist.tarball)
-    - tar xf tslib-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
+    - wget $(npm view $NAME@$VERSION dist.tarball)
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
   build_our_package_script:
-    - git clone --depth 1 --branch $VERSION https://github.com/Microsoft/tslib.git
-    - npm pack ./tslib
-    - tar xf tslib-$VERSION.tgz --strip-components=1 --one-top-level=our-package
+    - git clone --depth 1 --branch $VERSION $GIT_REPO $NAME
+    - npm pack ./$NAME
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
   diff_directories_script:
     - diff -r npm-package our-package
 
 request_task:
   env:
+    NAME: request
     VERSION: 2.88.2
+    GIT_REPO: https://github.com/request/request.git
   get_npm_package_script:
-    - wget $(npm view request@$VERSION dist.tarball)
-    - tar xf request-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
+    - wget $(npm view $NAME@$VERSION dist.tarball)
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
   build_our_package_script:
-    - git clone --depth 1 --branch deprecation https://github.com/request/request.git
-    - npm pack ./request
-    - tar xf request-$VERSION.tgz --strip-components=1 --one-top-level=our-package
+    - git clone --depth 1 --branch deprecation $GIT_REPO $NAME
+    - npm pack ./$NAME
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
   diff_directories_script:
     - diff -r npm-package our-package
 
 commander_task:
   env:
+    NAME: commander
     VERSION: 7.0.0
+    GIT_REPO: https://github.com/tj/commander.js.git
   get_npm_package_script:
-    - wget $(npm view commander@$VERSION dist.tarball)
-    - tar xf commander-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
+    - wget $(npm view $NAME@$VERSION dist.tarball)
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
   build_our_package_script:
-    - git clone --depth 1 --branch v$VERSION https://github.com/tj/commander.js.git
-    - npm pack ./commander.js
-    - tar xf commander-$VERSION.tgz --strip-components=1 --one-top-level=our-package
+    - git clone --depth 1 --branch v$VERSION $GIT_REPO $NAME
+    - npm pack ./$NAME
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
   diff_directories_script:
     - diff -r npm-package our-package
