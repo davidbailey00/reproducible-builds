@@ -15,7 +15,7 @@ react-dom_task:
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
   build_our_package_script:
     - git clone --depth 1 --branch v$VERSION $GIT_REPO $NAME
-    - (cd $NAME && yarn)
+    - (cd $NAME && yarn --frozen-lockfile)
     - (cd $NAME && yarn build $NAME/index)
     - npm pack ./$NAME/build/node_modules/$NAME
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
