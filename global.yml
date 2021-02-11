@@ -1,0 +1,4 @@
+container:
+  image: node:buster
+  cpu: 1
+  memory: 2G

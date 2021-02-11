@@ -2,7 +2,72 @@ container:
   image: node:buster
   cpu: 1
   memory: 2G
-
+axios_task:
+  env:
+    NAME: axios
+    VERSION: 0.21.1
+    GIT_REPO: https://github.com/axios/axios.git
+  check_version_script: >
+    [ "$(npm show $NAME version)" = "$VERSION" ]
+  get_npm_package_script:
+    - wget $(npm view $NAME@$VERSION dist.tarball)
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
+  build_our_package_script:
+    - git clone --depth 1 --branch v$VERSION $GIT_REPO $NAME
+    - npm install --prefix $NAME
+    - npm run --prefix $NAME build
+    - (cd $NAME && npx grunt version)
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
+  diff_directories_script:
+    - diff -r npm-package our-package
+chalk_task:
+  env:
+    NAME: chalk
+    VERSION: 4.1.0
+    GIT_REPO: https://github.com/chalk/chalk.git
+  check_version_script: >
+    [ "$(npm show $NAME version)" = "$VERSION" ]
+  get_npm_package_script:
+    - wget $(npm view $NAME@$VERSION dist.tarball)
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
+  build_our_package_script:
+    - git clone --depth 1 --branch v$VERSION $GIT_REPO $NAME
+    - npm pack ./$NAME
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
+  diff_directories_script:
+    - diff -r npm-package our-package
+commander_task:
+  env:
+    NAME: commander
+    VERSION: 7.0.0
+    GIT_REPO: https://github.com/tj/commander.js.git
+  check_version_script: >
+    [ "$(npm show $NAME version)" = "$VERSION" ]
+  get_npm_package_script:
+    - wget $(npm view $NAME@$VERSION dist.tarball)
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
+  build_our_package_script:
+    - git clone --depth 1 --branch v$VERSION $GIT_REPO $NAME
+    - npm pack ./$NAME
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
+  diff_directories_script:
+    - diff -r npm-package our-package
+express_task:
+  env:
+    NAME: express
+    VERSION: 4.17.1
+    GIT_REPO: https://github.com/expressjs/express.git
+  check_version_script: >
+    [ "$(npm show $NAME version)" = "$VERSION" ]
+  get_npm_package_script:
+    - wget $(npm view $NAME@$VERSION dist.tarball)
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
+  build_our_package_script:
+    - git clone --depth 1 --branch $VERSION $GIT_REPO $NAME
+    - npm pack ./$NAME
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
+  diff_directories_script:
+    - diff -r npm-package our-package
 lodash_task:
   env:
     NAME: lodash
@@ -19,7 +84,23 @@ lodash_task:
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
   diff_directories_script:
     - diff -r npm-package our-package
-
+moment_task:
+  env:
+    NAME: moment
+    VERSION: 2.29.1
+    GIT_REPO: https://github.com/moment/moment.git
+  check_version_script: >
+    [ "$(npm show $NAME version)" = "$VERSION" ]
+  get_npm_package_script:
+    - wget $(npm view $NAME@$VERSION dist.tarball)
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
+  build_our_package_script:
+    - git clone --depth 1 --branch $VERSION $GIT_REPO $NAME
+    - npm ci --prefix $NAME
+    - (cd $NAME && npx grunt release)
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
+  diff_directories_script:
+    - diff -r npm-package our-package
 react_task:
   container:
     image: node:lts-buster
@@ -43,41 +124,6 @@ react_task:
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
   diff_directories_script:
     - diff -r npm-package our-package
-
-chalk_task:
-  env:
-    NAME: chalk
-    VERSION: 4.1.0
-    GIT_REPO: https://github.com/chalk/chalk.git
-  check_version_script: >
-    [ "$(npm show $NAME version)" = "$VERSION" ]
-  get_npm_package_script:
-    - wget $(npm view $NAME@$VERSION dist.tarball)
-    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
-  build_our_package_script:
-    - git clone --depth 1 --branch v$VERSION $GIT_REPO $NAME
-    - npm pack ./$NAME
-    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
-  diff_directories_script:
-    - diff -r npm-package our-package
-
-tslib_task:
-  env:
-    NAME: tslib
-    VERSION: 2.1.0
-    GIT_REPO: https://github.com/Microsoft/tslib.git
-  check_version_script: >
-    [ "$(npm show $NAME version)" = "$VERSION" ]
-  get_npm_package_script:
-    - wget $(npm view $NAME@$VERSION dist.tarball)
-    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
-  build_our_package_script:
-    - git clone --depth 1 --branch $VERSION $GIT_REPO $NAME
-    - npm pack ./$NAME
-    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
-  diff_directories_script:
-    - diff -r npm-package our-package
-
 request_task:
   env:
     NAME: request
@@ -94,29 +140,11 @@ request_task:
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
   diff_directories_script:
     - diff -r npm-package our-package
-
-commander_task:
+tslib_task:
   env:
-    NAME: commander
-    VERSION: 7.0.0
-    GIT_REPO: https://github.com/tj/commander.js.git
-  check_version_script: >
-    [ "$(npm show $NAME version)" = "$VERSION" ]
-  get_npm_package_script:
-    - wget $(npm view $NAME@$VERSION dist.tarball)
-    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
-  build_our_package_script:
-    - git clone --depth 1 --branch v$VERSION $GIT_REPO $NAME
-    - npm pack ./$NAME
-    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
-  diff_directories_script:
-    - diff -r npm-package our-package
-
-express_task:
-  env:
-    NAME: express
-    VERSION: 4.17.1
-    GIT_REPO: https://github.com/expressjs/express.git
+    NAME: tslib
+    VERSION: 2.1.0
+    GIT_REPO: https://github.com/Microsoft/tslib.git
   check_version_script: >
     [ "$(npm show $NAME version)" = "$VERSION" ]
   get_npm_package_script:
@@ -125,43 +153,6 @@ express_task:
   build_our_package_script:
     - git clone --depth 1 --branch $VERSION $GIT_REPO $NAME
     - npm pack ./$NAME
-    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
-  diff_directories_script:
-    - diff -r npm-package our-package
-
-axios_task:
-  env:
-    NAME: axios
-    VERSION: 0.21.1
-    GIT_REPO: https://github.com/axios/axios.git
-  check_version_script: >
-    [ "$(npm show $NAME version)" = "$VERSION" ]
-  get_npm_package_script:
-    - wget $(npm view $NAME@$VERSION dist.tarball)
-    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
-  build_our_package_script:
-    - git clone --depth 1 --branch v$VERSION $GIT_REPO $NAME
-    - npm install --prefix $NAME
-    - npm run --prefix $NAME build
-    - (cd $NAME && npx grunt version)
-    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
-  diff_directories_script:
-    - diff -r npm-package our-package
-
-moment_task:
-  env:
-    NAME: moment
-    VERSION: 2.29.1
-    GIT_REPO: https://github.com/moment/moment.git
-  check_version_script: >
-    [ "$(npm show $NAME version)" = "$VERSION" ]
-  get_npm_package_script:
-    - wget $(npm view $NAME@$VERSION dist.tarball)
-    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
-  build_our_package_script:
-    - git clone --depth 1 --branch $VERSION $GIT_REPO $NAME
-    - npm ci --prefix $NAME
-    - (cd $NAME && npx grunt release)
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
   diff_directories_script:
     - diff -r npm-package our-package

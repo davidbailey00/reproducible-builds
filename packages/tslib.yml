@@ -1,0 +1,16 @@
+tslib_task:
+  env:
+    NAME: tslib
+    VERSION: 2.1.0
+    GIT_REPO: https://github.com/Microsoft/tslib.git
+  check_version_script: >
+    [ "$(npm show $NAME version)" = "$VERSION" ]
+  get_npm_package_script:
+    - wget $(npm view $NAME@$VERSION dist.tarball)
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
+  build_our_package_script:
+    - git clone --depth 1 --branch $VERSION $GIT_REPO $NAME
+    - npm pack ./$NAME
+    - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
+  diff_directories_script:
+    - diff -r npm-package our-package
