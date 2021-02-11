@@ -117,7 +117,7 @@ axios_task:
     - git clone --depth 1 --branch v$VERSION $GIT_REPO $NAME
     - npm install --prefix $NAME
     - npm run --prefix $NAME build
-    - npm pack ./$NAME
+    - cd $NAME && npx grunt version && cd ..
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
   diff_directories_script:
     - diff -r npm-package our-package
