@@ -117,7 +117,7 @@ axios_task:
     - git clone --depth 1 --branch v$VERSION $GIT_REPO $NAME
     - npm install --prefix $NAME
     - npm run --prefix $NAME build
-    - cd $NAME && npx grunt version && cd ..
+    - (cd $NAME && npx grunt version)
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
   diff_directories_script:
     - diff -r npm-package our-package
@@ -135,7 +135,7 @@ moment_task:
   build_our_package_script:
     - git clone --depth 1 --branch $VERSION $GIT_REPO $NAME
     - npm ci --prefix $NAME
-    - cd $NAME && npx grunt release && cd ..
+    - (cd $NAME && npx grunt release)
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=our-package
   diff_directories_script:
     - diff -r npm-package our-package
