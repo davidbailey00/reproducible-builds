@@ -1,15 +1,12 @@
 react-dom_task:
   container:
-    image: node:lts-buster
+    image: circleci/openjdk:8-jdk-node
   env:
     NAME: react-dom
     VERSION: 17.0.1
     GIT_REPO: https://github.com/facebook/react.git
   check_version_script: >
     [ "$(npm show $NAME version)" = "$VERSION" ]
-  install_deps_script:
-    - apt-get update
-    - apt-get install -y default-jre
   get_npm_package_script:
     - wget $(npm view $NAME@$VERSION dist.tarball)
     - tar xf $NAME-$VERSION.tgz --strip-components=1 --one-top-level=npm-package
