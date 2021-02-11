@@ -1,5 +1,7 @@
 container:
   image: node:buster
+  cpu: 1
+  memory: 2G
 
 lodash_task:
   env:
